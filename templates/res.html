@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+      .match.term0 { color: red; }
+    </style>
+
+    <title>Gurdiengine</title>
+  </head>
+  <body>
+
+  
+    
+<br>
+
+
+<div class="container">
+
+
+<div class="col">
+<h3 style="text-align: center;">{{ n }} résultats trouvés</h3>
+<br>
+{% for i in res %}
+   <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ i[0] }} </h5>
+        <p style="color:royalblue;">{{ i[1] }} : </p>
+        <p>{{ i|safe }}</p>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  {% endfor %}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+  </body>
+</html>
