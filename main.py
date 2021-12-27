@@ -14,7 +14,7 @@ import whoosh.highlight as highlight
 app = Flask(__name__)
 
 
-def search_corpus(mot):
+def search_motcle(mot):
     tab=[]
     ix = index.open_dir("nurmberg")
     with ix.searcher() as searcher:
@@ -24,7 +24,20 @@ def search_corpus(mot):
         res.fragmenter = highlight.WholeFragmenter()
         for i in res:
             #tab.append([i['title'],i['sp'],i['text']])
-            tab.append(i.highlights("text"))
+            tab.append([i['title'],i['sp'],i.highlights("text")])
+    return tab
+
+
+def search_sp(mot,sp):
+    tab=[]
+    ix = index.open_dir("nurmberg")
+    with ix.searcher() as searcher:
+        query = MultifieldParser(["sp","text"], schema=ix.schema).parse(sp+" "+mot)
+        res = searcher.search(query,limit=None)
+        res.fragmenter = highlight.WholeFragmenter()
+        for i in res:
+            if i['sp']==sp:
+                tab.append([i['title'],i['sp'],i.highlights("text")])
     return tab
 
 
@@ -34,12 +47,28 @@ def search_corpus(mot):
 def home():
     return render_template("index.html")
 
+@app.route("/speaker")
+def speaker():
+    return render_template("r2.html")
+
 @app.route("/search",methods=["POST","GET"])
 def search():
     if request.method == "GET":
         q = request.args.get("q")
-        res=search_corpus(q)
+        res=search_motcle(q)
         return render_template("res.html",res=res,n=len(res))
+
+
+@app.route("/searchR2",methods=["POST","GET"])
+def searchR2():
+    if request.method == "GET":
+        q = request.args.get("q")
+        sp= request.args.get("sp")
+        print(sp)
+        res=search_sp(q,sp)
+        return render_template("res.html",res=res,n=len(res))
+
+
 
 
 if __name__ == "__main__":

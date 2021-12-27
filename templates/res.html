@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-      .match.term0 { color: red; }
+      .match{ color: red; }
     </style>
 
     <title>Gurdiengine</title>
@@ -32,7 +32,7 @@
       <div class="card-body">
         <h5 class="card-title">{{ i[0] }} </h5>
         <p style="color:royalblue;">{{ i[1] }} : </p>
-        <p>{{ i|safe }}</p>
+        <p>{{ i[2]|safe }}</p>
       </div>
     </div>
   </div>
