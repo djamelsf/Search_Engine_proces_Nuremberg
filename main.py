@@ -31,13 +31,22 @@ def search_motcle(mot):
 def search_sp(mot,sp):
     tab=[]
     ix = index.open_dir("nurmberg")
-    with ix.searcher() as searcher:
-        query = MultifieldParser(["sp","text"], schema=ix.schema).parse(sp+" "+mot)
-        res = searcher.search(query,limit=None)
-        res.fragmenter = highlight.WholeFragmenter()
-        for i in res:
-            if i['sp']==sp:
-                tab.append([i['title'],i['sp'],i.highlights("text")])
+
+    if mot=="":
+        with ix.searcher() as searcher:
+            query = QueryParser("sp", ix.schema).parse(sp)
+            res = searcher.search(query,limit=None)
+            for i in res:
+                tab.append([i['title'],i['sp'],i['text']])
+    else:
+        with ix.searcher() as searcher:
+            #query = MultifieldParser(["sp","text"], schema=ix.schema).parse(sp+" "+mot)
+            query = QueryParser("text", ix.schema).parse(mot)
+            res = searcher.search(query,limit=None)
+            res.fragmenter = highlight.WholeFragmenter()
+            for i in res:
+                if i['sp']==sp:
+                    tab.append([i['title'],i['sp'],i.highlights("text")])
     return tab
 
 
@@ -64,7 +73,6 @@ def searchR2():
     if request.method == "GET":
         q = request.args.get("q")
         sp= request.args.get("sp")
-        print(sp)
         res=search_sp(q,sp)
         return render_template("res.html",res=res,n=len(res))
 
