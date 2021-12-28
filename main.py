@@ -50,6 +50,30 @@ def search_sp(mot,sp):
     return tab
 
 
+def search_spJ(mot,sp,journee):
+    tab=[]
+    ix = index.open_dir("nurmberg")
+
+    if mot=="":
+        with ix.searcher() as searcher:
+            query = QueryParser("sp", ix.schema).parse(sp)
+            res = searcher.search(query,limit=None)
+            for i in res:
+                #tab.append([i['title'],i['sp'],i['text']])
+                if i['title']==journee:
+                    tab.append([i['title'],i['sp'],i['text']])
+
+    else:
+        with ix.searcher() as searcher:
+            #query = MultifieldParser(["sp","text"], schema=ix.schema).parse(sp+" "+mot)
+            query = QueryParser("text", ix.schema).parse(mot)
+            res = searcher.search(query,limit=None)
+            res.fragmenter = highlight.WholeFragmenter()
+            for i in res:
+                if i['sp']==sp and i['title']==journee:
+                    tab.append([i['title'],i['sp'],i.highlights("text")])
+    return tab
+
 
 
 @app.route("/")
@@ -59,6 +83,10 @@ def home():
 @app.route("/speaker")
 def speaker():
     return render_template("r2.html")
+
+@app.route("/spJournee")
+def spJournee():
+    return render_template("r3.html")
 
 @app.route("/search",methods=["POST","GET"])
 def search():
@@ -75,6 +103,18 @@ def searchR2():
         sp= request.args.get("sp")
         res=search_sp(q,sp)
         return render_template("res.html",res=res,n=len(res))
+
+@app.route("/searchR3",methods=["POST","GET"])
+def searchR3():
+    if request.method == "GET":
+        q = request.args.get("q")
+        sp= request.args.get("sp")
+        journee= request.args.get("journee")
+        print(journee)
+        res=search_spJ(q,sp,journee)
+        return render_template("res.html",res=res,n=len(res))
+
+
 
 
 
