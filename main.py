@@ -7,6 +7,7 @@ from whoosh.qparser import QueryParser
 import whoosh.index as index
 from whoosh.qparser import MultifieldParser
 import whoosh.highlight as highlight
+import time
 
 
 
@@ -91,28 +92,30 @@ def spJournee():
 @app.route("/search",methods=["POST","GET"])
 def search():
     if request.method == "GET":
+        t=time.time()
         q = request.args.get("q")
         res=search_motcle(q)
-        return render_template("res.html",res=res,n=len(res))
+        return render_template("res.html",res=res,n=len(res),tm=round(time.time()-t,2))
 
 
 @app.route("/searchR2",methods=["POST","GET"])
 def searchR2():
     if request.method == "GET":
+        t=time.time()
         q = request.args.get("q")
         sp= request.args.get("sp")
         res=search_sp(q,sp)
-        return render_template("res.html",res=res,n=len(res))
+        return render_template("res.html",res=res,n=len(res),tm=round(time.time()-t,2))
 
 @app.route("/searchR3",methods=["POST","GET"])
 def searchR3():
     if request.method == "GET":
+        t=time.time()
         q = request.args.get("q")
         sp= request.args.get("sp")
         journee= request.args.get("journee")
-        print(journee)
         res=search_spJ(q,sp,journee)
-        return render_template("res.html",res=res,n=len(res))
+        return render_template("res.html",res=res,n=len(res),tm=round(time.time()-t,2))
 
 
 
