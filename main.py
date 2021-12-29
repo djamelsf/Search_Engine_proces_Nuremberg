@@ -24,7 +24,7 @@ def search_motcle(mot):
         res.fragmenter = highlight.WholeFragmenter()
         for i in res:
             #tab.append([i['title'],i['sp'],i['text']])
-            tab.append([i['title'],i['sp'],i.highlights("text")])
+            tab.append([i['title'],i['sp'],i.highlights("text",minscore=0)])
     return tab
 
 
@@ -46,7 +46,7 @@ def search_sp(mot,sp):
             res.fragmenter = highlight.WholeFragmenter()
             for i in res:
                 if i['sp']==sp:
-                    tab.append([i['title'],i['sp'],i.highlights("text")])
+                    tab.append([i['title'],i['sp'],i.highlights("text",minscore=0)])
     return tab
 
 
@@ -71,7 +71,7 @@ def search_spJ(mot,sp,journee):
             res.fragmenter = highlight.WholeFragmenter()
             for i in res:
                 if i['sp']==sp and i['title']==journee:
-                    tab.append([i['title'],i['sp'],i.highlights("text")])
+                    tab.append([i['title'],i['sp'],i.highlights("text",minscore=0)])
     return tab
 
 
