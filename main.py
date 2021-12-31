@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 def search_motcle(mot):
     tab=[]
-    ix = index.open_dir("nurmberg")
+    ix = index.open_dir("Nuremberg")
     with ix.searcher() as searcher:
         #query = MultifieldParser(["title", "sp","text"], schema=ix.schema).parse(mot)
         query = QueryParser("text", ix.schema).parse(mot)
@@ -31,7 +31,7 @@ def search_motcle(mot):
 
 def search_sp(mot,sp):
     tab=[]
-    ix = index.open_dir("nurmberg")
+    ix = index.open_dir("Nuremberg")
 
     if mot=="":
         with ix.searcher() as searcher:
@@ -53,7 +53,7 @@ def search_sp(mot,sp):
 
 def search_spJ(mot,sp,journee):
     tab=[]
-    ix = index.open_dir("nurmberg")
+    ix = index.open_dir("Nuremberg")
 
     if mot=="":
         with ix.searcher() as searcher:
